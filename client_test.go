@@ -30,19 +30,22 @@ func TestGetChainIds(t *testing.T) {
 		if r.URL.Path != "/api/v1/chain/ids" {
 			t.Errorf("Expected to request '/api/v1/chain/ids', got: %s", r.URL.Path)
 		}
-		chainIdsData := map[string]interface{}{
-			"ethereum":            "1",
-			"binance-smart-chain": 56,
-			"polygon":             "137",
-		}
-		chainIdsBytes, err := json.Marshal(chainIdsData)
-		if err != nil {
-			t.Fatalf("Failed to marshal chain IDs data: %v", err)
-		}
-		response := APIResponse{
+		response := struct {
+			Status  string         `json:"status"`
+			Message string         `json:"message"`
+			Data    map[string]int `json:"data"`
+		}{
 			Status:  "success",
 			Message: "Chain IDs retrieved successfully",
-			Data:    string(chainIdsBytes),
+			Data: map[string]int{
+				"solana":   900,
+				"tron":     1000,
+				"ethereum": 1,
+				"base":     8453,
+				"arbitrum": 42161,
+				"bsc":      56,
+				"blast":    81457,
+			},
 		}
 		if err := json.NewEncoder(w).Encode(response); err != nil {
 			t.Fatalf("Failed to encode response: %v", err)
@@ -62,9 +65,13 @@ func TestGetChainIds(t *testing.T) {
 	}
 
 	expected := map[string]int{
-		"ethereum":            1,
-		"binance-smart-chain": 56,
-		"polygon":             137,
+		"solana":   900,
+		"tron":     1000,
+		"ethereum": 1,
+		"base":     8453,
+		"arbitrum": 42161,
+		"bsc":      56,
+		"blast":    81457,
 	}
 
 	if !reflect.DeepEqual(chainIds, expected) {
