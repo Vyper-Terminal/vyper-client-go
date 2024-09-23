@@ -75,10 +75,36 @@ func (c *VyperClient) GetChainIds() (map[string]int, error) {
 		return nil, err
 	}
 
-	var result map[string]int
-	err = json.Unmarshal(body, &result)
+	var apiResp APIResponse
+	err = json.Unmarshal(body, &apiResp)
 	if err != nil {
 		return nil, err
+	}
+
+	var rawResult map[string]interface{}
+	dataStr, ok := apiResp.Data.(string)
+	if !ok {
+		return nil, fmt.Errorf("unexpected data type for API response")
+	}
+	err = json.Unmarshal([]byte(dataStr), &rawResult)
+	if err != nil {
+		return nil, err
+	}
+
+	result := make(map[string]int)
+	for k, v := range rawResult {
+		switch value := v.(type) {
+		case float64:
+			result[k] = int(value)
+		case string:
+			intValue, err := strconv.Atoi(value)
+			if err != nil {
+				return nil, fmt.Errorf("unable to convert chain ID to integer: %v", err)
+			}
+			result[k] = intValue
+		default:
+			return nil, fmt.Errorf("unexpected type for chain ID: %T", v)
+		}
 	}
 
 	return result, nil

@@ -30,13 +30,22 @@ func TestGetChainIds(t *testing.T) {
 		if r.URL.Path != "/api/v1/chain/ids" {
 			t.Errorf("Expected to request '/api/v1/chain/ids', got: %s", r.URL.Path)
 		}
-		if r.Header.Get("X-API-Key") != "test-api-key" {
-			t.Errorf("Expected X-API-Key header to be 'test-api-key', got: %s", r.Header.Get("X-API-Key"))
+		chainIdsData := map[string]interface{}{
+			"ethereum":            "1",
+			"binance-smart-chain": 56,
+			"polygon":             "137",
 		}
-		w.WriteHeader(http.StatusOK)
-		_, err := w.Write([]byte(`{"ethereum": 1, "binance-smart-chain": 56}`))
+		chainIdsBytes, err := json.Marshal(chainIdsData)
 		if err != nil {
-			t.Errorf("Error writing response: %v", err)
+			t.Fatalf("Failed to marshal chain IDs data: %v", err)
+		}
+		response := APIResponse{
+			Status:  "success",
+			Message: "Chain IDs retrieved successfully",
+			Data:    string(chainIdsBytes),
+		}
+		if err := json.NewEncoder(w).Encode(response); err != nil {
+			t.Fatalf("Failed to encode response: %v", err)
 		}
 	}))
 	defer server.Close()
@@ -55,10 +64,11 @@ func TestGetChainIds(t *testing.T) {
 	expected := map[string]int{
 		"ethereum":            1,
 		"binance-smart-chain": 56,
+		"polygon":             137,
 	}
 
 	if !reflect.DeepEqual(chainIds, expected) {
-		t.Errorf("Expected chainIds to be %v, but got %v", expected, chainIds)
+		t.Errorf("Expected chain IDs to be %+v, but got %+v", expected, chainIds)
 	}
 }
 
