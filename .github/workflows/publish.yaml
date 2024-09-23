@@ -1,0 +1,54 @@
+name: Go Module Release
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  test-and-publish:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Go
+        uses: actions/setup-go@v4
+        with:
+          go-version: "1.20"
+
+      - name: Install dependencies
+        run: go mod tidy
+
+      - name: Run tests
+        run: go test -v ./...
+
+      - name: Get latest tag
+        id: get_latest_tag
+        run: echo "::set-output name=tag::$(git describe --tags --abbrev=0 || echo 'v0.0.0')"
+
+      - name: Calculate new version
+        id: calc_new_version
+        run: |
+          latest_tag=${{ steps.get_latest_tag.outputs.tag }}
+          echo "Latest tag: $latest_tag"
+          # Increment patch version, change this logic for minor/major versions if needed
+          next_version=$(echo $latest_tag | awk -F. -v OFS=. '{ $NF++; print }')
+          echo "Next version: $next_version"
+          echo "::set-output name=new_version::$next_version"
+
+      - name: Set Git user
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+
+      - name: Create and push tag
+        run: |
+          git tag ${{ steps.calc_new_version.outputs.new_version }}
+          git push origin ${{ steps.calc_new_version.outputs.new_version }}
+
+      - name: Verify Go Module
+        run: |
+          go list -m github.com/Vyper-Terminal/vyper-client-go@${{ steps.calc_new_version.outputs.new_version }}
