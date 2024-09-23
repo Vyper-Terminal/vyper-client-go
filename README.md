@@ -21,7 +21,7 @@ A Go SDK for interacting with the [Vyper API](https://build.vyper.trade/). This 
 To install the Vyper API Go SDK, use `go get:`
 
 ```bash
-go get github.com/your-username/vyperclientgo
+go get github.com/Vyper-Terminal/vyper-client-go
 ```
 
 ## Quick Start
@@ -35,7 +35,7 @@ import (
     "fmt"
     "log"
 
-    "github.com/Vyper-Terminal/vyper-client-go"
+    vyperclientgo "github.com/Vyper-Terminal/vyper-client-go"
 )
 
 func main() {
@@ -74,7 +74,7 @@ import (
     "fmt"
     "log"
 
-    "github.com/Vyper-Terminal/vyper-client-go"
+    vyperclientgo "github.com/Vyper-Terminal/vyper-client-go"
 )
 
 func main() {
@@ -100,7 +100,7 @@ import (
     "fmt"
     "log"
 
-    "github.com/Vyper-Terminal/vyper-client-go"
+    vyperclientgo "github.com/Vyper-Terminal/vyper-client-go"
 )
 
 func main() {
@@ -142,5 +142,5 @@ func main() {
 
 For detailed information on the Vyper API, refer to the official documentation:
 
-- API Dashboard: [Vyper Dashboard](https://build.vyper.trade/)
-- API Documentation: [Vyper API Docs](ttps://docs.vyper.trade/)
+-   API Dashboard: [Vyper Dashboard](https://build.vyper.trade/)
+-   API Documentation: [Vyper API Docs](ttps://docs.vyper.trade/)
