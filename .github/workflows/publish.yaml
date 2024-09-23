@@ -1,56 +1,76 @@
 name: Go Module Release
 
 on:
-  push:
-    branches:
-      - main
-  workflow_dispatch:
+    push:
+        branches:
+            - main
+    workflow_dispatch:
 
 jobs:
-  test-and-publish:
-    runs-on: ubuntu-latest
+    test-and-publish:
+        runs-on: ubuntu-latest
 
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-        with:
-          token: ${{ secrets.GH_TOKEN }}
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v3
+              with:
+                  token: ${{ secrets.GH_TOKEN }}
 
-      - name: Set up Go
-        uses: actions/setup-go@v4
-        with:
-          go-version: "1.22.3"
+            - name: Set up Go
+              uses: actions/setup-go@v4
+              with:
+                  go-version: '1.22.3'
 
-      - name: Install dependencies
-        run: go mod tidy
+            - name: Install dependencies
+              run: go mod tidy
 
-      - name: Run tests
-        run: go test -v ./...
+            - name: Run tests
+              run: go test -v ./...
 
-      - name: Get latest tag
-        id: get_latest_tag
-        run: echo "::set-output name=tag::$(git describe --tags --abbrev=0 || echo 'v0.0.0')"
+            - name: Get latest version tag
+              id: get_latest_tag
+              run: |
+                  latest_tag=$(git describe --tags --match "v*" --abbrev=0 2>/dev/null || echo "v0.0.0")
+                  latest_version=${latest_tag#v} # Remove 'v' prefix from the version
+                  echo "Latest version: $latest_version"
+                  echo "::set-output name=version::$latest_version"
 
-      - name: Calculate new version
-        id: calc_new_version
-        run: |
-          latest_tag=${{ steps.get_latest_tag.outputs.tag }}
-          echo "Latest tag: $latest_tag"
-          # Increment patch version, change this logic for minor/major versions if needed
-          next_version=$(echo $latest_tag | awk -F. -v OFS=. '{ $NF++; print }')
-          echo "Next version: $next_version"
-          echo "::set-output name=new_version::$next_version"
+            # Calculate the next version tag based on the latest tag
+            - name: Calculate new version
+              id: calc_new_version
+              run: |
+                  version="${{ steps.get_latest_tag.outputs.version }}"
+                  IFS='.' read -r major minor patch <<<"$version"
 
-      - name: Set Git user
-        run: |
-          git config user.name "github-actions"
-          git config user.email "github-actions@github.com"
+                  # Increment the patch version by default
+                  if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
+                    # If manually triggered, increment the minor version instead
+                    minor=$((minor + 1))
+                    patch=0
+                  else
+                    patch=$((patch + 1))
+                  fi
 
-      - name: Create and push tag
-        run: |
-          git tag ${{ steps.calc_new_version.outputs.new_version }}
-          git push origin ${{ steps.calc_new_version.outputs.new_version }}
+                  new_version="v$major.$minor.$patch"
+                  echo "Next version: $new_version"
+                  echo "::set-output name=new_version::$new_version"
 
-      - name: Verify Go Module
-        run: |
-          go list -m github.com/Vyper-Terminal/vyper-client-go@${{ steps.calc_new_version.outputs.new_version }}
+            - name: Set Git user
+              run: |
+                  git config user.name "github-actions"
+                  git config user.email "github-actions@github.com"
+
+            - name: Authenticate with GitHub
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+              run: |
+                  git remote set-url origin https://x-access-token:${GITHUB_TOKEN}@github.com/Vyper-Terminal/vyper-client-go.git
+
+            - name: Create and push tag
+              run: |
+                  git tag ${{ steps.calc_new_version.outputs.new_version }}
+                  git push origin ${{ steps.calc_new_version.outputs.new_version }}
+
+            - name: Verify Go Module
+              run: |
+                  go list -m github.com/Vyper-Terminal/vyper-client-go@${{ steps.calc_new_version.outputs.new_version }}
