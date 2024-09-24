@@ -219,7 +219,7 @@ func (c *VyperClient) GetWalletHoldings(walletAddress string, chainId int) ([]Wa
 		"walletAddress": walletAddress,
 		"chainID":       fmt.Sprintf("%d", chainId),
 	}
-	body, err := c.request("GET", "/wallet/holdings", params)
+	body, err := c.request("GET", "/api/v1/wallet/holdings", params)
 	if err != nil {
 		return nil, err
 	}
@@ -249,7 +249,7 @@ func (c *VyperClient) GetWalletAggregatedPnl(walletAddress string, chainId int) 
 		"walletAddress": walletAddress,
 		"chainID":       fmt.Sprintf("%d", chainId),
 	}
-	body, err := c.request("GET", "/wallet/aggregated-pnl", params)
+	body, err := c.request("GET", "/api/v1/wallet/aggregated-pnl", params)
 	if err != nil {
 		return nil, err
 	}
@@ -279,7 +279,7 @@ func (c *VyperClient) GetWalletPnl(walletAddress string, marketId string, chainI
 		"marketID":      marketId,
 		"chainID":       fmt.Sprintf("%d", chainId),
 	}
-	body, err := c.request("GET", "/wallet/pnl", params)
+	body, err := c.request("GET", "/api/v1/wallet/pnl", params)
 	if err != nil {
 		return nil, err
 	}
@@ -456,7 +456,7 @@ func (c *VyperClient) GetTokenPairs(params TokenPairsParams) (*TokenPairs, error
 		}
 	}
 
-	body, err := c.request("GET", "/token/pairs", queryParams)
+	body, err := c.request("GET", "/api/v1/token/pairs", queryParams)
 	if err != nil {
 		return nil, err
 	}
