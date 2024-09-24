@@ -6,15 +6,15 @@ A Go SDK for interacting with the [Vyper API](https://build.vyper.trade/). This 
 
 ## Table of Contents
 
-- [Vyper API Go SDK](#vyper-api-go-sdk)
-  - [Table of Contents](#table-of-contents)
-  - [Installation](#installation)
-  - [Quick Start](#quick-start)
-  - [Usage](#usage)
-    - [Client Initialization](#client-initialization)
-    - [REST API Example](#rest-api-example)
-    - [WebSocket API Example](#websocket-api-example)
-  - [API Documentation](#api-documentation)
+-   [Vyper API Go SDK](#vyper-api-go-sdk)
+    -   [Table of Contents](#table-of-contents)
+    -   [Installation](#installation)
+    -   [Quick Start](#quick-start)
+    -   [Usage](#usage)
+        -   [Client Initialization](#client-initialization)
+        -   [REST API Example](#rest-api-example)
+        -   [WebSocket API Example](#websocket-api-example)
+    -   [API Documentation](#api-documentation)
 
 ## Installation
 
@@ -143,4 +143,4 @@ func main() {
 For detailed information on the Vyper API, refer to the official documentation:
 
 -   API Dashboard: [Vyper Dashboard](https://build.vyper.trade/)
--   API Documentation: [Vyper API Docs](ttps://docs.vyper.trade/)
+-   API Documentation: [Vyper API Docs](https://docs.vyper.trade/)
