@@ -323,7 +323,7 @@ func TestGetTokenMarkets(t *testing.T) {
 
 func TestGetWalletHoldings(t *testing.T) {
 	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		if r.URL.Path != "/wallet/holdings" {
+		if r.URL.Path != "/api/v1/wallet/holdings" {
 			t.Errorf("Expected to request '/wallet/holdings', got: %s", r.URL.Path)
 		}
 		if r.URL.Query().Get("walletAddress") != "0x123..." || r.URL.Query().Get("chainID") != "1" {
@@ -391,7 +391,7 @@ func TestGetWalletHoldings(t *testing.T) {
 
 func TestGetWalletAggregatedPnl(t *testing.T) {
 	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		if r.URL.Path != "/wallet/aggregated-pnl" {
+		if r.URL.Path != "/api/v1/wallet/aggregated-pnl" {
 			t.Errorf("Expected to request '/wallet/aggregated-pnl', got: %s", r.URL.Path)
 		}
 		if r.URL.Query().Get("walletAddress") != "0x123..." || r.URL.Query().Get("chainID") != "1" {
@@ -453,7 +453,7 @@ func TestGetWalletAggregatedPnl(t *testing.T) {
 
 func TestGetWalletPnl(t *testing.T) {
 	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		if r.URL.Path != "/wallet/pnl" {
+		if r.URL.Path != "/api/v1/wallet/pnl" {
 			t.Errorf("Expected to request '/wallet/pnl', got: %s", r.URL.Path)
 		}
 		if r.URL.Query().Get("walletAddress") != "0x123..." || r.URL.Query().Get("marketID") != "market1" || r.URL.Query().Get("chainID") != "1" {
@@ -762,7 +762,7 @@ func TestSearchTokens(t *testing.T) {
 
 func TestGetTokenPairs(t *testing.T) {
 	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		if r.URL.Path != "/token/pairs" {
+		if r.URL.Path != "/api/v1/token/pairs" {
 			t.Errorf("Expected to request '/token/pairs', got: %s", r.URL.Path)
 		}
 		pairsData := TokenPairs{
