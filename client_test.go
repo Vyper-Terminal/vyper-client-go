@@ -161,7 +161,7 @@ func TestGetTokenMarket(t *testing.T) {
 		t.Fatalf("GetTokenMarket returned an error: %v", err)
 	}
 
-	expected := &ExtendedToken{
+	expected := &TokenPair{
 		MarketId:          "test-market",
 		TokenPriceUsd:     1.5,
 		TokenLiquidityUsd: 1000000.0,
@@ -767,7 +767,7 @@ func TestGetTokenPairs(t *testing.T) {
 		}
 		pairsData := TokenPairs{
 			HasNext: true,
-			Pairs: []ExtendedToken{
+			Pairs: []TokenPair{
 				{
 					MarketId:          "market1",
 					ChainId:           1,
@@ -816,7 +816,7 @@ func TestGetTokenPairs(t *testing.T) {
 
 	expected := &TokenPairs{
 		HasNext: true,
-		Pairs: []ExtendedToken{
+		Pairs: []TokenPair{
 			{
 				MarketId:          "market1",
 				ChainId:           1,

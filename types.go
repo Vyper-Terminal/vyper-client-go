@@ -112,7 +112,7 @@ type MigrationState struct {
 	Volume             float64 `json:"volume"`
 }
 
-type ExtendedToken struct {
+type TokenPair struct {
 	TokenType              string          `json:"tokenType"`
 	ChainId                int32           `json:"chainId"`
 	Name                   string          `json:"name"`
@@ -193,8 +193,8 @@ type ExtendedToken struct {
 }
 
 type TokenPairs struct {
-	HasNext bool            `json:"hasNext"`
-	Pairs   []ExtendedToken `json:"pairs"`
+	HasNext bool        `json:"hasNext"`
+	Pairs   []TokenPair `json:"pairs"`
 }
 
 type ChainAction struct {
