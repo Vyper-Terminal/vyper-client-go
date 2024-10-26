@@ -126,6 +126,10 @@ func (c *VyperWebsocketClient) Listen() error {
 			return err
 		}
 
+		if len(message) == 0 {
+			continue
+		}
+
 		if c.MessageHandler != nil {
 			var rawData map[string]interface{}
 			err = json.Unmarshal(message, &rawData)
@@ -138,7 +142,9 @@ func (c *VyperWebsocketClient) Listen() error {
 				return err
 			}
 
-			c.MessageHandler(convertedData)
+			if convertedData != nil {
+				c.MessageHandler(convertedData)
+			}
 		}
 	}
 }
