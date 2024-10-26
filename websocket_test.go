@@ -89,7 +89,7 @@ func TestVyperWebsocketClient_Listen(t *testing.T) {
 		}
 		defer c.Close()
 
-		tokenPair := TokenPair{
+		tokenPair := ExtendedToken{
 			MarketId: "test-market",
 			Name:     "Test Token",
 			Symbol:   "TEST",
@@ -138,7 +138,7 @@ func TestVyperWebsocketClient_Listen(t *testing.T) {
 
 	select {
 	case msg := <-receivedMessage:
-		tokenPair, ok := msg.(*TokenPair)
+		tokenPair, ok := msg.(*ExtendedToken)
 		if !ok {
 			t.Fatalf("Received message is not a TokenPair")
 		}

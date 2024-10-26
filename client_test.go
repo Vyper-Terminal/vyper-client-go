@@ -136,12 +136,12 @@ func TestGetTokenMarket(t *testing.T) {
 			Status:  "success",
 			Message: "Token market data retrieved successfully",
 			Data: map[string]interface{}{
-				"marketId":           "test-market",
-				"tokenPriceUsd":      1.5,
-				"tokenLiquidityUsd":  1000000.0,
-				"tokenMarketCapUsd":  5000000.0,
-				"volumeUsd":          500000.0,
-				"priceChangePercent": -2.5,
+				"marketId":          "test-market",
+				"tokenPriceUsd":     1.5,
+				"tokenLiquidityUsd": 1000000.0,
+				"tokenMarketCapUsd": 5000000.0,
+				"buyVolume1h":       500000.0,
+				"percentChange1h":   -2.5,
 			},
 		}
 		if err := json.NewEncoder(w).Encode(response); err != nil {
@@ -161,13 +161,13 @@ func TestGetTokenMarket(t *testing.T) {
 		t.Fatalf("GetTokenMarket returned an error: %v", err)
 	}
 
-	expected := &TokenPair{
-		MarketId:           "test-market",
-		TokenPriceUsd:      1.5,
-		TokenLiquidityUsd:  1000000.0,
-		TokenMarketCapUsd:  5000000.0,
-		VolumeUsd:          500000.0,
-		PriceChangePercent: -2.5,
+	expected := &ExtendedToken{
+		MarketId:          "test-market",
+		TokenPriceUsd:     1.5,
+		TokenLiquidityUsd: 1000000.0,
+		TokenMarketCapUsd: 5000000.0,
+		BuyVolume1h:       500000.0,
+		PercentChange1h:   -2.5,
 	}
 
 	if !reflect.DeepEqual(market, expected) {
@@ -767,19 +767,19 @@ func TestGetTokenPairs(t *testing.T) {
 		}
 		pairsData := TokenPairs{
 			HasNext: true,
-			Pairs: []TokenPair{
+			Pairs: []ExtendedToken{
 				{
-					MarketId:           "market1",
-					ChainId:            1,
-					Name:               "Test Token",
-					Symbol:             "TEST",
-					TokenMint:          "0xabc...",
-					TokenType:          "ERC20",
-					TokenPriceUsd:      1.5,
-					TokenLiquidityUsd:  10000.0,
-					TokenMarketCapUsd:  100000.0,
-					VolumeUsd:          50000.0,
-					PriceChangePercent: 5.5,
+					MarketId:          "market1",
+					ChainId:           1,
+					Name:              "Test Token",
+					Symbol:            "TEST",
+					TokenMint:         "0xabc...",
+					TokenType:         "ERC20",
+					TokenPriceUsd:     1.5,
+					TokenLiquidityUsd: 10000.0,
+					TokenMarketCapUsd: 100000.0,
+					BuyVolume1h:       50000.0,
+					PercentChange1h:   5.5,
 					// ... more fields ...
 				},
 			},
@@ -816,19 +816,19 @@ func TestGetTokenPairs(t *testing.T) {
 
 	expected := &TokenPairs{
 		HasNext: true,
-		Pairs: []TokenPair{
+		Pairs: []ExtendedToken{
 			{
-				MarketId:           "market1",
-				ChainId:            1,
-				Name:               "Test Token",
-				Symbol:             "TEST",
-				TokenMint:          "0xabc...",
-				TokenType:          "ERC20",
-				TokenPriceUsd:      1.5,
-				TokenLiquidityUsd:  10000.0,
-				TokenMarketCapUsd:  100000.0,
-				VolumeUsd:          50000.0,
-				PriceChangePercent: 5.5,
+				MarketId:          "market1",
+				ChainId:           1,
+				Name:              "Test Token",
+				Symbol:            "TEST",
+				TokenMint:         "0xabc...",
+				TokenType:         "ERC20",
+				TokenPriceUsd:     1.5,
+				TokenLiquidityUsd: 10000.0,
+				TokenMarketCapUsd: 100000.0,
+				BuyVolume1h:       50000.0,
+				PercentChange1h:   5.5,
 				// ... more fields ...
 			},
 		},

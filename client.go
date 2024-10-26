@@ -121,7 +121,7 @@ func (c *VyperClient) GetTokenAth(chainId int, marketId string) (*TokenATH, erro
 	return &result, nil
 }
 
-func (c *VyperClient) GetTokenMarket(marketId string, chainId int, interval string) (*TokenPair, error) {
+func (c *VyperClient) GetTokenMarket(marketId string, chainId int, interval string) (*ExtendedToken, error) {
 	params := map[string]string{
 		"chainID":  fmt.Sprintf("%d", chainId),
 		"interval": interval,
@@ -137,7 +137,7 @@ func (c *VyperClient) GetTokenMarket(marketId string, chainId int, interval stri
 		return nil, err
 	}
 
-	var result TokenPair
+	var result ExtendedToken
 	dataBytes, err := json.Marshal(apiResp.Data)
 	if err != nil {
 		return nil, err

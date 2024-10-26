@@ -169,13 +169,13 @@ func (c *VyperWebsocketClient) convertToChainAction(data map[string]interface{})
 	return &chainAction, nil
 }
 
-func (c *VyperWebsocketClient) convertToTokenPair(data map[string]interface{}) (*TokenPair, error) {
+func (c *VyperWebsocketClient) convertToTokenPair(data map[string]interface{}) (*ExtendedToken, error) {
 	jsonData, err := json.Marshal(data)
 	if err != nil {
 		return nil, err
 	}
 
-	var tokenPair TokenPair
+	var tokenPair ExtendedToken
 	err = json.Unmarshal(jsonData, &tokenPair)
 	if err != nil {
 		return nil, err

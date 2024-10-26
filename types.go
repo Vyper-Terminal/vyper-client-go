@@ -112,53 +112,89 @@ type MigrationState struct {
 	Volume             float64 `json:"volume"`
 }
 
-type TokenPair struct {
-	Abused                 *bool           `json:"abused,omitempty"`
-	BondingCurvePercentage *float64        `json:"bondingCurvePercentage,omitempty"`
-	BuyTxnCount            int             `json:"buyTxnCount"`
-	ChainId                int             `json:"chainId"`
+type ExtendedToken struct {
+	TokenType              string          `json:"tokenType"`
+	ChainId                int32           `json:"chainId"`
+	Name                   string          `json:"name"`
+	Description            *string         `json:"description,omitempty"`
+	Symbol                 string          `json:"symbol"`
+	Image                  *string         `json:"image,omitempty"`
+	MetadataURI            *string         `json:"metadataUri,omitempty"`
 	ContractCreator        string          `json:"contractCreator"`
+	LpCreator              string          `json:"lpCreator"`
 	CreatedTimestamp       int64           `json:"createdTimestamp"`
-	Description            string          `json:"description,omitempty"`
-	FreezeAuthority        *bool           `json:"freezeAuthority,omitempty"`
-	Image                  string          `json:"image,omitempty"`
+	TotalSupply            float64         `json:"totalSupply"`
+	TokenMint              string          `json:"tokenMint"`
+	MarketId               string          `json:"marketId"`
+	MigratedMarketID       *string         `json:"migratedMarketId,omitempty"`
 	InitialAssetLiquidity  float64         `json:"initialAssetLiquidity"`
 	InitialUsdLiquidity    float64         `json:"initialUsdLiquidity"`
-	IsMigrated             *bool           `json:"isMigrated,omitempty"`
-	LpBurned               bool            `json:"lpBurned"`
-	LpCreator              string          `json:"lpCreator"`
-	MarketId               string          `json:"marketId"`
-	MetadataUri            string          `json:"metadataUri,omitempty"`
-	MigratedMarketId       string          `json:"migratedMarketId,omitempty"`
-	MigrationState         *MigrationState `json:"migrationState,omitempty"`
 	MintAuthority          *bool           `json:"mintAuthority,omitempty"`
-	Name                   string          `json:"name"`
-	PooledAsset            float64         `json:"pooledAsset"`
-	PooledToken            float64         `json:"pooledToken"`
-	PriceChangePercent     float64         `json:"priceChangePercent"`
-	SellTxnCount           int             `json:"sellTxnCount"`
-	Symbol                 string          `json:"symbol"`
-	Telegram               string          `json:"telegram,omitempty"`
-	TokenLiquidityAsset    float64         `json:"tokenLiquidityAsset"`
-	TokenLiquidityUsd      float64         `json:"tokenLiquidityUsd"`
-	TokenMarketCapAsset    float64         `json:"tokenMarketCapAsset"`
-	TokenMarketCapUsd      float64         `json:"tokenMarketCapUsd"`
-	TokenMint              string          `json:"tokenMint"`
+	FreezeAuthority        *bool           `json:"freezeAuthority,omitempty"`
+	Abused                 *bool           `json:"abused,omitempty"`
+	Website                *string         `json:"website,omitempty"`
+	Twitter                *string         `json:"twitter,omitempty"`
+	Telegram               *string         `json:"telegram,omitempty"`
+	IsMigrated             *bool           `json:"isMigrated,omitempty"`
+	BondingCurvePercentage *float64        `json:"bondingCurvePercentage,omitempty"`
+	MigrationState         *MigrationState `json:"migrationState,omitempty"`
+	Top10HoldingPercent    float64         `json:"top10HoldingPercent"`
+	LpBurned               bool            `json:"lpBurned"`
 	TokenPriceAsset        float64         `json:"tokenPriceAsset"`
 	TokenPriceUsd          float64         `json:"tokenPriceUsd"`
-	TokenType              string          `json:"tokenType"`
-	Top10HoldingPercent    float64         `json:"top10HoldingPercent"`
-	TotalSupply            float64         `json:"totalSupply"`
-	TransactionCount       int             `json:"transactionCount"`
-	Twitter                string          `json:"twitter,omitempty"`
-	VolumeAsset            float64         `json:"volumeAsset"`
-	VolumeUsd              float64         `json:"volumeUsd"`
-	Website                string          `json:"website,omitempty"`
+	TokenMarketCapAsset    float64         `json:"tokenMarketCapAsset"`
+	TokenMarketCapUsd      float64         `json:"tokenMarketCapUsd"`
+	TokenLiquidityAsset    float64         `json:"tokenLiquidityAsset"`
+	TokenLiquidityUsd      float64         `json:"tokenLiquidityUsd"`
+	PooledToken            float64         `json:"pooledToken"`
+	PooledAsset            float64         `json:"pooledAsset"`
+	HolderCount            int64           `json:"holderCount"`
+	BotHolderCount         int64           `json:"botHolderCount"`
+	PercentChange5m        float64         `json:"percentChange5m"`
+	TotalTxnCount5m        int64           `json:"totalTxnCount5m"`
+	BuyTxnCount5m          int64           `json:"buyTxnCount5m"`
+	SellTxnCount5m         int64           `json:"sellTxnCount5m"`
+	TotalVolume5m          float64         `json:"totalVolume5m"`
+	BuyVolume5m            float64         `json:"buyVolume5m"`
+	SellVolume5m           float64         `json:"sellVolume5m"`
+	TotalMakers5m          int64           `json:"totalMakers5m"`
+	BuyMakers5m            int64           `json:"buyMakers5m"`
+	SellMakers5m           int64           `json:"sellMakers5m"`
+	PercentChange1h        float64         `json:"percentChange1h"`
+	TotalTxnCount1h        int64           `json:"totalTxnCount1h"`
+	BuyTxnCount1h          int64           `json:"buyTxnCount1h"`
+	SellTxnCount1h         int64           `json:"sellTxnCount1h"`
+	TotalVolume1h          float64         `json:"totalVolume1h"`
+	BuyVolume1h            float64         `json:"buyVolume1h"`
+	SellVolume1h           float64         `json:"sellVolume1h"`
+	TotalMakers1h          int64           `json:"totalMakers1h"`
+	BuyMakers1h            int64           `json:"buyMakers1h"`
+	SellMakers1h           int64           `json:"sellMakers1h"`
+	PercentChange6h        float64         `json:"percentChange6h"`
+	TotalTxnCount6h        int64           `json:"totalTxnCount6h"`
+	BuyTxnCount6h          int64           `json:"buyTxnCount6h"`
+	SellTxnCount6h         int64           `json:"sellTxnCount6h"`
+	TotalVolume6h          float64         `json:"totalVolume6h"`
+	BuyVolume6h            float64         `json:"buyVolume6h"`
+	SellVolume6h           float64         `json:"sellVolume6h"`
+	TotalMakers6h          int64           `json:"totalMakers6h"`
+	BuyMakers6h            int64           `json:"buyMakers6h"`
+	SellMakers6h           int64           `json:"sellMakers6h"`
+	PercentChange24h       float64         `json:"percentChange24h"`
+	TotalTxnCount24h       int64           `json:"totalTxnCount24h"`
+	BuyTxnCount24h         int64           `json:"buyTxnCount24h"`
+	SellTxnCount24h        int64           `json:"sellTxnCount24h"`
+	TotalVolume24h         float64         `json:"totalVolume24h"`
+	BuyVolume24h           float64         `json:"buyVolume24h"`
+	SellVolume24h          float64         `json:"sellVolume24h"`
+	TotalMakers24h         int64           `json:"totalMakers24h"`
+	BuyMakers24h           int64           `json:"buyMakers24h"`
+	SellMakers24h          int64           `json:"sellMakers24h"`
 }
 
 type TokenPairs struct {
-	HasNext bool        `json:"hasNext"`
-	Pairs   []TokenPair `json:"pairs"`
+	HasNext bool            `json:"hasNext"`
+	Pairs   []ExtendedToken `json:"pairs"`
 }
 
 type ChainAction struct {
